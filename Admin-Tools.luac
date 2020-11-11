@@ -128,7 +128,7 @@ function main() -- не трогать!
 
 	--sampRegisterChatCommand("prefix", cmd_prefix)
     sampAddChatMessage(tag.. "{FFD700}загружен! {FFFF00}Версия: {FF7F50}1.0.0Ы", 0xFFD700)
-    autoupdate("https://raw.githubusercontent.com/SergioEscobar/admintools/main/update.ini", '['..string.upper(thisScript().name)..']: ', "тут ссылка на ваш сайт/url вашего скрипта на форуме (если нет, оставьте как в json)")
+    autoupdate("https://raw.githubusercontent.com/SergioEscobar/admintools/main/update.ini", '['..string.upper(thisScript().name)..']: ', "https://raw.githubusercontent.com/SergioEscobar/admintools/main/Admin-Tools.luac")
 --	imgui.Process = false
 
 	thread = lua_thread.create_suspended(thread_function)
