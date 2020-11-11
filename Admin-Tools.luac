@@ -1,6 +1,6 @@
 script_name ("ATools by Vilkov") 
 script_author("Vilkov") 
-script_version("11.11.20") 
+script_version("11.11.2020") 
 
 require "lib.moonloader"  
 require "lib.sampfuncs" -- 
