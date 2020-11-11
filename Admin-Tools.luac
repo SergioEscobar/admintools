@@ -1,6 +1,6 @@
 script_name ("ATools by Vilkov") 
 script_author("Vilkov") 
-script_version("1.0") 
+script_version("11.11.20") 
 
 require "lib.moonloader"  
 require "lib.sampfuncs" -- 
@@ -127,7 +127,7 @@ function main() -- не трогать!
 	sampRegisterChatCommand("res", cmd_res)
 
 	--sampRegisterChatCommand("prefix", cmd_prefix)
-    sampAddChatMessage(tag.. "{FFD700}загружен! {FFFF00}Версия: {FF7F50}1.0.0Ы", 0xFFD700)
+    sampAddChatMessage(tag.. "{FFD700}загружен! {FFFF00}Версия от{FF7F50} 11.11.20", 0xFFD700)
     autoupdate("https://raw.githubusercontent.com/SergioEscobar/admintools/main/update.ini", '['..string.upper(thisScript().name)..']: ', "https://raw.githubusercontent.com/SergioEscobar/admintools/main/Admin-Tools.luac")
 --	imgui.Process = false
 
