@@ -92,7 +92,7 @@ local fraza = {'04', 'TOP04', 'EKB', 'Ekaterinburg'}
 function main() -- не трогать!
 	if not isSampLoaded()  then return end
 	while  not isSampAvailable() do wait(100) end 
-
+	local pm_timer = os.clock()
     sampRegisterChatCommand("apanel", cmd_apanel)
     imgui.SwitchContext()
 	themes.SwitchColorTheme(mainIni.config.theme)
@@ -130,7 +130,7 @@ function main() -- не трогать!
 	sampRegisterChatCommand("res", cmd_res)
 
 	--sampRegisterChatCommand("prefix", cmd_prefix)
-    sampAddChatMessage(tag.. "{FFD700}загружен! {FFFF00}Версия от{FF7F50} 11.11.20", 0xFFD700)
+    sampAddChatMessage(tag.. "{FFD700}загружен! {FFFF00}Версия от{FF7F50} 14.11.20", 0xFFD700)
     autoupdate("https://raw.githubusercontent.com/SergioEscobar/admintools/main/update.ini", '['..string.upper(thisScript().name)..']: ', "https://raw.githubusercontent.com/SergioEscobar/admintools/main/Admin-Tools.luac")
 --	imgui.Process = false
 
@@ -139,7 +139,7 @@ function main() -- не трогать!
 	while true do 	-- так же
 	--	imgui.ShowCursor = apanel_window_state.v
     --    imgui.Process =  apanel_window_state.v
-    if #answers > 0 and os.clock() - pm_timer > 1.0 then -- вместо 1.5 ставишь задержку антифлуда (в секундах)
+    	if #answers > 0 and os.clock() - pm_timer > 1.0 then -- вместо 1.5 ставишь задержку антифлуда (в секундах)
             pm_timer = os.clock()
             sampSendChat(answers[1])
             table.remove(answers, 1)
