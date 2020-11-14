@@ -13,7 +13,7 @@ encoding.default = "CP1251"
 u8 = encoding.UTF8 
 local bNotf, notf = pcall(import, "imgui_notf.lua")
 local themes = import "resource/imgui_themes.lua"
-local tag = "{FF6347}ATools: " -- РќРµ С‚СЂРѕРіР°С‚СЊ!
+local tag = "{FF6347}ATools: " -- Не трогать!
 local main_color = 0x5A90CE
 local main_color_text = "{5A90CE}"
 local white_color = "{FFFF00}"
@@ -21,13 +21,13 @@ local var = imgui.ImInt(1)
 local var1 = imgui.ImInt(1)
 local var2 = imgui.ImInt(1)
 local var3 = imgui.ImInt(1)
- -- 0 - Р­С‚Рѕ РёР·РЅР°С‡Р°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ С‚РІРѕРµРіРѕ РєРѕРјР±Рѕ. (РўРѕ РµСЃС‚СЊ РїРµСЂРІР°СЏ СЃС‚СЂРѕС‡РєР°)
+ -- 0 - Это изначальное значение твоего комбо. (То есть первая строчка)
 local inputnick = imgui.ImBuffer(256) 
 local inputid = imgui.ImBuffer(256) 
 local inputkol = imgui.ImBuffer(256)
 local inputname = imgui.ImBuffer(256)
- -- Р­С‚Рѕ РёРЅРїСѓС‚, РєСѓРґР° РЅСѓР¶РЅРѕ РЅРёРє РІРІРѕРґРёС‚СЊ
-local combo = imgui.ImInt(0) -- 0 - Р­С‚Рѕ РёР·РЅР°С‡Р°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ С‚РІРѕРµРіРѕ РєРѕРјР±Рѕ. (РўРѕ РµСЃС‚СЊ РїРµСЂРІР°СЏ СЃС‚СЂРѕС‡РєР°)
+ -- Это инпут, куда нужно ник вводить
+local combo = imgui.ImInt(0) -- 0 - Это изначальное значение твоего комбо. (То есть первая строчка)
 local fa = require 'faIcons'
 local inifolderpath = 'moonloader//Admin-Tools//config'
 if not doesDirectoryExist(inifolderpath) then
@@ -89,14 +89,14 @@ local answers = {}
 
 local fraza = {'04', 'TOP04', 'EKB', 'Ekaterinburg'}
 
-function main() -- РЅРµ С‚СЂРѕРіР°С‚СЊ!
+function main() -- не трогать!
 	if not isSampLoaded()  then return end
 	while  not isSampAvailable() do wait(100) end 
 
     sampRegisterChatCommand("apanel", cmd_apanel)
     imgui.SwitchContext()
 	themes.SwitchColorTheme(mainIni.config.theme)
-    --------- РљРћРњРђРќР”Р« РќРђР‘РћР  ----------
+    --------- КОМАНДЫ НАБОР ----------
     sampRegisterChatCommand("lspd", cmd_lspd)
 	sampRegisterChatCommand("fbi", cmd_fbi)
 	sampRegisterChatCommand("sfa", cmd_sfa)
@@ -123,31 +123,31 @@ function main() -- РЅРµ С‚СЂРѕРіР°С‚СЊ!
 	sampRegisterChatCommand("apres", cmd_apres)
 	sampRegisterChatCommand("casd", cmd_casd)
 	sampRegisterChatCommand("casc", cmd_casc)
-	--------- РљРћРќР•Р¦ ----------
+	--------- КОНЕЦ ----------
 	sampRegisterChatCommand("advall", cmd_advall)
 	sampRegisterChatCommand("asp", cmd_asp)
 	sampRegisterChatCommand("lead", cmd_lead)
 	sampRegisterChatCommand("res", cmd_res)
 
 	--sampRegisterChatCommand("prefix", cmd_prefix)
-    sampAddChatMessage(tag.. "{FFD700}Р·Р°РіСЂСѓР¶РµРЅ! {FFFF00}Р’РµСЂСЃРёСЏ РѕС‚{FF7F50} 11.11.20", 0xFFD700)
+    sampAddChatMessage(tag.. "{FFD700}загружен! {FFFF00}Версия от{FF7F50} 11.11.20", 0xFFD700)
     autoupdate("https://raw.githubusercontent.com/SergioEscobar/admintools/main/update.ini", '['..string.upper(thisScript().name)..']: ', "https://raw.githubusercontent.com/SergioEscobar/admintools/main/Admin-Tools.luac")
 --	imgui.Process = false
 
 	thread = lua_thread.create_suspended(thread_function)
 
-	while true do 	-- С‚Р°Рє Р¶Рµ
+	while true do 	-- так же
 	--	imgui.ShowCursor = apanel_window_state.v
     --    imgui.Process =  apanel_window_state.v
-    if #answers > 0 and os.clock() - pm_timer > 1.0 then -- РІРјРµСЃС‚Рѕ 1.5 СЃС‚Р°РІРёС€СЊ Р·Р°РґРµСЂР¶РєСѓ Р°РЅС‚РёС„Р»СѓРґР° (РІ СЃРµРєСѓРЅРґР°С…)
+    if #answers > 0 and os.clock() - pm_timer > 1.0 then -- вместо 1.5 ставишь задержку антифлуда (в секундах)
             pm_timer = os.clock()
             sampSendChat(answers[1])
             table.remove(answers, 1)
         end
 		wait(0)
 
-		_, id = sampGetPlayerIdByCharHandle(PLAYER_PED) -- РЅРµ С‚СЂРѕРіР°С‚СЊ С‚РѕР¶Рµ
-	nick = sampGetPlayerNickname(id) -- С‚СѓС‚ С‚РѕР¶Рµ.
+		_, id = sampGetPlayerIdByCharHandle(PLAYER_PED) -- не трогать тоже
+	nick = sampGetPlayerNickname(id) -- тут тоже.
 
 		if apanel_window_state.v == false then
 			imgui.Process = false
@@ -161,12 +161,12 @@ end
 
 function sampev.onServerMessage(color, text)
 	for k,v in ipairs(fraza) do
-	if text:find('Р–Р°Р»РѕР±Р° РѕС‚ (%w+_?%w+)%[(%d+)%]: {FFCD00}'..v) then
+	if text:find('Жалоба от (%w+_?%w+)%[(%d+)%]: {FFCD00}'..v) then
 		lua_thread.create(function()
 				wait(500)
-			local nickRep, idRep = text:match('Р–Р°Р»РѕР±Р° РѕС‚ (%w+_?%w+)%[(%d+)%]: {FFCD00}'..v)
+			local nickRep, idRep = text:match('Жалоба от (%w+_?%w+)%[(%d+)%]: {FFCD00}'..v)
 				wait(500)
-			answers[#answers + 1] = ("/pm "..idRep.." РџСЂРёСЏС‚РЅРѕР№ РёРіСЂС‹ РЅР° Russia RP")
+			answers[#answers + 1] = ("/pm "..idRep.." Приятной игры на Russia RP")
 		end)
 	end
 	end
@@ -266,238 +266,238 @@ end
 
 function thread_function(option, arg)
 	if option == "asp" then
-		sampSendChat("/aad Info || Р§РµСЂРµР· 30 СЃРµРєСѓРЅРґ РїСЂРѕР№РґС‘С‚ СЂРµСЃРїР°РІРЅ РЅРµР·Р°РЅСЏС‚РѕРіРѕ С‚СЂР°РЅСЃРїРѕСЂС‚Р°!")
+		sampSendChat("/aad Info || Через 30 секунд пройдёт респавн незанятого транспорта!")
 		wait(900)
-		sampSendChat("/aad Info || РџСЂРѕСЃРёРј Р·Р°РЅСЏС‚СЊ РµРіРѕ, РІ С…СѓРґС€РµРј СЃР»СѓС‡Р°Рµ РѕРЅ РёСЃС‡РµР·РЅРµС‚!")
-		sampAddChatMessage("Р’С‹ Р·Р°РїСѓСЃС‚РёР»Рё СЂРµСЃРїР°РІРЅ С‚СЂР°РЅСЃРїРѕСЂС‚Р° С‡РµСЂРµР· 30 СЃРµРєСѓРЅРґ!", main_color)
+		sampSendChat("/aad Info || Просим занять его, в худшем случае он исчезнет!")
+		sampAddChatMessage("Вы запустили респавн транспорта через 30 секунд!", main_color)
 		wait(30000)
 		sampSendChat("/spawncars")
 		wait(1000)
-		sampSendChat("/aad Info || Р РµСЃРїР°РІРЅ С‚СЂР°РЅСЃРїРѕСЂС‚Р° РїСЂРѕС€С‘Р» СѓСЃРїРµС€РЅРѕ!!")
-		sampAddChatMessage("Р’С‹ СѓСЃРїРµС€РЅРѕ Р·Р°СЂРµСЃРїР°РІРЅРёР»Рё С‚СЂР°РЅСЃРїРѕСЂС‚!", main_color)
+		sampSendChat("/aad Info || Респавн транспорта прошёл успешно!!")
+		sampAddChatMessage("Вы успешно зареспавнили транспорт!", main_color)
 	end
 	if option == "advall" then
-		sampSendChat("/a Info || Р§РµСЂРµР· 15 СЃРµРєСѓРЅРґ РїСЂРѕР№РґРµС‚ СѓРґР°Р»РµРЅРёРµ СЃРѕР·РґР°РЅРЅРѕРіРѕ С‚СЂР°РЅСЃРїРѕСЂС‚Р°!")
-		sampAddChatMessage("Р’С‹ Р·Р°РїСѓСЃС‚РёР»Рё СѓРґР°Р»РµРЅРёРµ СЃРѕР·РґР°РЅРЅРѕРіРѕ С‚СЂР°РЅСЃРїРѕСЂС‚Р° С‡РµСЂРµР· 15 СЃРµРєСѓРЅРґ!", main_color)
+		sampSendChat("/a Info || Через 15 секунд пройдет удаление созданного транспорта!")
+		sampAddChatMessage("Вы запустили удаление созданного транспорта через 15 секунд!", main_color)
 		wait(15000)
 		sampSendChat("/dvall")
 		wait(1000)
-		sampSendChat("/a Info || РЈРґР°Р»РµРЅРёРµ С‚СЂР°РЅСЃРїРѕСЂС‚Р° РїСЂРѕС€Р»Рѕ СѓСЃРїРµС€РЅРѕ!")
-		sampAddChatMessage("Р’С‹ СѓСЃРїРµС€РЅРѕ СѓРґР°Р»РёР»Рё С‚СЂР°РЅСЃРїРѕСЂС‚!", main_color)
+		sampSendChat("/a Info || Удаление транспорта прошло успешно!")
+		sampAddChatMessage("Вы успешно удалили транспорт!", main_color)
 	end
 	if option == "lspd" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«РџРѕР»РёС†РёСЏ Р›РЎВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Полиция ЛС»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "fbi" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Р¤Р‘Р В»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «ФБР»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "sfa" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«РђСЂРјРёСЏ РЎР¤В»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Армия СФ»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "hls" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Р‘РѕР»СЊРЅРёС†Р° Р›РЎВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Больница ЛС»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "lcn" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«La Cosa NostraВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «La Cosa Nostra»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "yak" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«YakuzaВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Yakuza»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "may" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«РњСЌСЂРёСЏ Р›РЎВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Мэрия ЛС»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "sfpd" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«РџРѕР»РёС†РёСЏ РЎР¤В»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Полиция СФ»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "ds" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«РђРІС‚РѕС€РєРѕР»Р°В»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Автошкола»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "bal" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Ballas GangВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Ballas Gang»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "vag" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Vagos GangВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Vagos Gang»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "rus" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Russian MafiaВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Russian Mafia»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "gr" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Grove StreetВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Grove Street»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "snew" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Sa NewsВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Sa News»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "azt" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Aztecas GangВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Aztecas Gang»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "rif" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Rifa GangВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Rifa Gang»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "lva" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«РђСЂРјРёСЏ Р›Р’В»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Армия ЛВ»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "lvpd" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«РџРѕР»РёС†РёСЏ Р›Р’В»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Полиция ЛВ»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "hit" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«РҐРёС‚РјР°РЅС‹В»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Хитманы»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "str" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«РЎС‚СЂРёС‚СЂРµР№СЃРµСЂС‹В»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Стритрейсеры»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "swat" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«SWATВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «SWAT»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "apres" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«РђРґРјРёРЅРёСЃС‚СЂР°С†РёСЏ РџСЂРµР·РёРґРµРЅС‚Р°В»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Администрация Президента»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "casd" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Casino 4 DragonsВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Casino 4 Dragons»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
 	if option == "casc" then
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РЈРІР°Р¶Р°РµРјС‹Рµ РёРіСЂРѕРєРё, СЃРµР№С‡Р°СЃ РїСЂРѕР№РґС‘С‚ РѕС‚Р±РѕСЂ РЅР° Р»РёРґРµСЂСЃС‚РІРѕ В«Casino CaligulasВ»")
+		sampSendChat("/aad Отбор | Уважаемые игроки, сейчас пройдёт отбор на лидерство «Casino Caligulas»")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | РљСЂРёС‚РµСЂРёРё: РёРјРµС‚СЊ Р’Рљ, Р·РЅР°С‚СЊ РїСЂР°РІРёР»Р°, РёРјРµС‚СЊ 3+ С‡Р°СЃР°!")
+		sampSendChat("/aad Отбор | Критерии: иметь ВК, знать правила, иметь 3+ часа!")
 		wait(1000)
-		sampSendChat("/aad РћС‚Р±РѕСЂ | Р”Р»СЏ СѓС‡Р°СЃС‚РёСЏ РІ РѕС‚Р±РѕСЂРµ - /gomp")
+		sampSendChat("/aad Отбор | Для участия в отборе - /gomp")
 		wait(500)
 		sampSendChat("/mp")
 	end
@@ -630,15 +630,15 @@ function imgui.OnDrawFrame( ... )
 	        apanel = 9
 	    end
 	    imgui.SameLine()
-	    if imgui.Button('' .. fa.ICON_INFO .. u8" РћРїРёСЃР°РЅРёРµ", imgui.ImVec2(80, 34)) then
+	    if imgui.Button('' .. fa.ICON_INFO .. u8" Описание", imgui.ImVec2(80, 34)) then
 	        apanel = 10
 	    end
 	    imgui.SameLine()
-	    if imgui.Button('' .. fa.ICON_USER_SECRET 	.. u8" РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°Рј", imgui.ImVec2(152, 34)) then
+	    if imgui.Button('' .. fa.ICON_USER_SECRET 	.. u8" Администраторам", imgui.ImVec2(152, 34)) then
 	        apanel = 11
 	    end
 	    imgui.SameLine()
-	    if imgui.Button('' .. fa.ICON_COGS .. u8" Р’РµСЂСЃРёСЏ", imgui.ImVec2(77, 34)) then
+	    if imgui.Button('' .. fa.ICON_COGS .. u8" Версия", imgui.ImVec2(77, 34)) then
 	        apanel = 12
 	    end
 	    imgui.EndChild()
@@ -647,7 +647,7 @@ function imgui.OnDrawFrame( ... )
 	        	imgui.BeginChild("", imgui.ImVec2(128, 273), true, imgui.WindowFlags.AlwaysUseWindowPadding)
 	        	imgui.Text('' .. fa.ICON_BARS .. '')
 	        	imgui.SameLine()
-	       		imgui.TextColoredRGB('{FFD700} Р’С‹Р±РѕСЂ С‚РµРјС‹ ')
+	       		imgui.TextColoredRGB('{FFD700} Выбор темы ')
 	       		imgui.SameLine()
 	        	imgui.Text('' .. fa.ICON_BARS .. '')
 	        	imgui.Separator(10)
@@ -664,29 +664,29 @@ function imgui.OnDrawFrame( ... )
 	        end
 		       
 	        if apanel == 2 then
-	        	imgui.Text("С‚РµРєСЃС‚")
+	        	imgui.Text("текст")
 	        end
 	        if apanel == 3 then
-	        	if imgui.Button('' .. fa.ICON_FLAG .. u8" Р—Р°СЃРїР°РІРЅРёС‚СЊ Р°РІС‚Рѕ", imgui.ImVec2(130, 40)) then
+	        	if imgui.Button('' .. fa.ICON_FLAG .. u8" Заспавнить авто", imgui.ImVec2(130, 40)) then
 	        		cmd_advall()
 	    		end
 	    		imgui.SameLine()
-	    		if imgui.Button('' .. fa.ICON_TRASH .. u8" РЈРґР°Р»РёС‚СЊ Р°РІС‚Рѕ", imgui.ImVec2(130, 40)) then
+	    		if imgui.Button('' .. fa.ICON_TRASH .. u8" Удалить авто", imgui.ImVec2(130, 40)) then
 	        		cmd_asp()
 	    		end
 	    		imgui.SameLine()
-	    		if imgui.Button('' .. fa.ICON_MOTORCYCLE .. u8" Р’С‹РґР°С‚СЊ Faggio", imgui.ImVec2(130, 40)) then
+	    		if imgui.Button('' .. fa.ICON_MOTORCYCLE .. u8" Выдать Faggio", imgui.ImVec2(130, 40)) then
 	        		sampSendChat("/veh 462 1 1")
 	    		end
 	    		imgui.SameLine()
-	    		if imgui.Button('' .. fa.ICON_BICYCLE  .. u8" Р’С‹РґР°С‚СЊ Bike", imgui.ImVec2(130, 40)) then
+	    		if imgui.Button('' .. fa.ICON_BICYCLE  .. u8" Выдать Bike", imgui.ImVec2(130, 40)) then
 	        		sampSendChat("/veh 509 1 1")
 	    		end
 	    		imgui.SameLine()
-	    		if imgui.Button('' .. fa.ICON_CAR .. u8" Р’С‹РґР°С‚СЊ Infernus", imgui.ImVec2(130, 40)) then
+	    		if imgui.Button('' .. fa.ICON_CAR .. u8" Выдать Infernus", imgui.ImVec2(130, 40)) then
 	        		sampSendChat("/veh 411 1 1")
 	    		end
-	    		if imgui.Button('' .. fa.ICON_HOME .. u8" Р—Р°СЃРїР°РЅРёС‚СЊ СЃРµР±СЏ", imgui.ImVec2(130, 40)) then
+	    		if imgui.Button('' .. fa.ICON_HOME .. u8" Заспанить себя", imgui.ImVec2(130, 40)) then
 	        		sampSendChat("/sp "..id)
 	    		end
 	    		imgui.SameLine()
@@ -703,22 +703,22 @@ function imgui.OnDrawFrame( ... )
 	        	imgui.BeginChild("", imgui.ImVec2(264, 273), true, imgui.WindowFlags.AlwaysUseWindowPadding)
 	        	imgui.Text('            ' .. fa.ICON_BARS .. '')
 	        	imgui.SameLine()
-	        	imgui.TextColoredRGB('{FFD700} РќР°Р±РѕСЂС‹ РЅР° Р»РёРґРµСЂРєРё ')
+	        	imgui.TextColoredRGB('{FFD700} Наборы на лидерки ')
 	        	imgui.SameLine()
 	    		imgui.Text('' .. fa.ICON_BARS .. '')
 	    		imgui.Separator()
-	        	if imgui.Button(u8"РџРѕР»РёС†РёСЏ Р›РЎ", imgui.ImVec2(118, 20)) then
+	        	if imgui.Button(u8"Полиция ЛС", imgui.ImVec2(118, 20)) then
 	        		cmd_lspd()
 	    		end
 	    		imgui.SameLine()
-	    		if imgui.Button(u8"Р¤Р‘Р ", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"ФБР", imgui.ImVec2(118, 20)) then
 	        		cmd_fbi()
 	    		end
-	    		if imgui.Button(u8"РђСЂРјРёСЏ РЎР¤", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"Армия СФ", imgui.ImVec2(118, 20)) then
 	        		cmd_sfa()
 	    		end
 	    		imgui.SameLine()
-	    		if imgui.Button(u8"Р‘РѕР»СЊРЅРёС†Р° Р›РЎ", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"Больница ЛС", imgui.ImVec2(118, 20)) then
 	        		cmd_hls()
 	    		end
 	    		if imgui.Button(u8"La Cosa Nostra", imgui.ImVec2(118, 20)) then
@@ -728,14 +728,14 @@ function imgui.OnDrawFrame( ... )
 	    		if imgui.Button(u8"Yakuza", imgui.ImVec2(118, 20)) then
 	        		cmd_yak()
 	    		end
-	    		if imgui.Button(u8"РњСЌСЂРёСЏ", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"Мэрия", imgui.ImVec2(118, 20)) then
 	        		cmd_may()
 	    		end
 	    		imgui.SameLine()
-	    		if imgui.Button(u8"РџРѕР»РёС†РёСЏ РЎР¤", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"Полиция СФ", imgui.ImVec2(118, 20)) then
 	        		cmd_sfpd()
 	    		end
-	    		if imgui.Button(u8"РђРІС‚РѕС€РєРѕР»Р°", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"Автошкола", imgui.ImVec2(118, 20)) then
 	        		cmd_ds()
 	    		end
 	    		imgui.SameLine()
@@ -763,25 +763,25 @@ function imgui.OnDrawFrame( ... )
 	    		if imgui.Button(u8"Rifa Gang", imgui.ImVec2(118, 20)) then
 	        		cmd_rif()
 	    		end
-	    		if imgui.Button(u8"РђСЂРјРёСЏ Р›Р’", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"Армия ЛВ", imgui.ImVec2(118, 20)) then
 	        		cmd_lva()
 	    		end
 	    		imgui.SameLine()
-	    		if imgui.Button(u8"РџРѕР»РёС†РёСЏ Р›Р’", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"Полиция ЛВ", imgui.ImVec2(118, 20)) then
 	        		cmd_lvpd()
 	    		end
-	    		if imgui.Button(u8"РҐРёС‚РјР°РЅС‹", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"Хитманы", imgui.ImVec2(118, 20)) then
 	        		cmd_hit()
 	    		end
 	    		imgui.SameLine()
-	    		if imgui.Button(u8"РЎС‚СЂРёС‚СЂРµР№СЃРµСЂС‹", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"Стритрейсеры", imgui.ImVec2(118, 20)) then
 	        		cmd_str()
 	    		end
 	    		if imgui.Button(u8"SWAT", imgui.ImVec2(118, 20)) then
 	        		cmd_swat()
 	    		end
 	    		imgui.SameLine()
-	    		if imgui.Button(u8"РђРґРјРёРЅРёСЃС‚СЂР°С†РёСЏ", imgui.ImVec2(118, 20)) then
+	    		if imgui.Button(u8"Администрация", imgui.ImVec2(118, 20)) then
 	        		cmd_apres()
 	    		end
 	    		if imgui.Button(u8"Casino 4 Dragons", imgui.ImVec2(118, 20)) then
@@ -796,18 +796,18 @@ function imgui.OnDrawFrame( ... )
 	    		imgui.BeginChild("apanel4", imgui.ImVec2(400, 82), true, imgui.WindowFlags.AlwaysUseWindowPadding)
 	    		imgui.Text('                         ' .. fa.ICON_BARS .. '')
 	        	imgui.SameLine()
-	        	imgui.TextColoredRGB('{FFD700} РќР°Р±РѕСЂС‹ РЅР° С…СЌР»РїРµСЂСЃРєРёРµ РїСЂР°РІР° ')
+	        	imgui.TextColoredRGB('{FFD700} Наборы на хэлперские права ')
 	        	imgui.SameLine()
 	    		imgui.Text('' .. fa.ICON_BARS .. '')
 	    		imgui.Separator()
-	    		local helplevel = {u8"[0] РќРµРґРѕСЃС‚СѓРїРЅРѕ", u8"[1] РџРµСЂРІС‹Р№", u8"[2] Р’С‚РѕСЂРѕР№", u8"[3] РўСЂРµС‚РёР№", u8"[4] Р§РµС‚РІС‘СЂС‚С‹Р№", u8"[5] РџСЏС‚С‹Р№", u8"[6] РЁРµСЃС‚РѕР№", u8"[7] РЎРµРґСЊРјРѕР№", u8"[8] Р’РѕСЃСЊРјРѕР№"} -- Р­С‚Рѕ СЃС‚СЂРѕРєРё РєРѕРјР±Рѕ, РјРѕР¶РµС€СЊ РґРѕРїРѕР»РЅСЏС‚СЊ. РџРµСЂРІР°СЏ СЃС‚СЂРѕРєР° "РќРµС‚" - СЌС‚Рѕ РґРµС„РѕР»С‚ Р·РЅР°С‡РµРЅРёРµ
-	    		imgui.Combo(u8'Р’С‹Р±РµСЂРёС‚Рµ СѓСЂРѕРІРµРЅСЊ', combo, helplevel) -- РЎР°РјРѕ РєРѕРјР±Рѕ.
+	    		local helplevel = {u8"[0] Недоступно", u8"[1] Первый", u8"[2] Второй", u8"[3] Третий", u8"[4] Четвёртый", u8"[5] Пятый", u8"[6] Шестой", u8"[7] Седьмой", u8"[8] Восьмой"} -- Это строки комбо, можешь дополнять. Первая строка "Нет" - это дефолт значение
+	    		imgui.Combo(u8'Выберите уровень', combo, helplevel) -- Само комбо.
 	    		imgui.Separator()
-	    		if imgui.Button(u8"Р—Р°РїСѓСЃС‚РёС‚СЊ", imgui.ImVec2(100, 20)) then -- Р•СЃР»Рё РЅР°Р¶Р°С‚СЊ РЅР° РєРЅРѕРїРєСѓ "Р’С‹РґР°С‚СЊ"
-		    	--	if combo.v == 0 then -- Р РµСЃР»Рё РІ РєРѕРјР±Рѕ Р±СѓРґРµС‚ РІС‹Р±СЂР°РЅР° СЃС‚СЂРѕРєР° "РќРµС‚" РёР»Рё Р¶Рµ РЅРёРє РёРіСЂРѕРєР° РЅРµ Р±СѓРґРµС‚ РІРІРµРґС‘РЅ
-		        --	sampAddChatMessage("Р’С‹Р±РµСЂРёС‚Рµ СѓСЂРѕРІРµРЅСЊ С…СЌР»РїРµСЂСЃРєРёС… РїСЂР°РІ.", -1) -- РќР°РїРёС€СѓС‚, С‡С‚Рѕ С‚С‹ РєРѕРµ-С‡С‚Рѕ Р·Р°Р±С‹Р»
-		    	--	else -- РРЅР°С‡Рµ
-		        	if sampSendChat("/aad РћС‚Р±РѕСЂ | CРµР№С‡Р°СЃ РїСЂРѕР№РґРµС‚ РѕС‚Р±РѕСЂ РЅР° РҐСЌР»РїРµСЂСЃРєРёРµ РїСЂР°РІР°: " ..combo.v.." СѓСЂРѕРІРЅСЏ!") then
+	    		if imgui.Button(u8"Запустить", imgui.ImVec2(100, 20)) then -- Если нажать на кнопку "Выдать"
+		    	--	if combo.v == 0 then -- И если в комбо будет выбрана строка "Нет" или же ник игрока не будет введён
+		        --	sampAddChatMessage("Выберите уровень хэлперских прав.", -1) -- Напишут, что ты кое-что забыл
+		    	--	else -- Иначе
+		        	if sampSendChat("/aad Отбор | Cейчас пройдет отбор на Хэлперские права: " ..combo.v.." уровня!") then
 					end
 				end
 				imgui.EndChild()
@@ -817,7 +817,7 @@ function imgui.OnDrawFrame( ... )
             	--    imgui.Separator()
                 imgui.SetColumnWidth(-1, 195)
                 --    imgui.Separator()
-	    imgui.Text(u8"            РњР°С„РёРё Рё Р±РёР·РЅРµСЃС‹")
+	    imgui.Text(u8"            Мафии и бизнесы")
 	        	
 	    if imgui.Button(u8" "..fa.ICON_FIRE .. u8" La Cosa Nostra", imgui.ImVec2(184,30)) then
 			sampSendChat("/templeader 5")
@@ -828,10 +828,10 @@ function imgui.OnDrawFrame( ... )
 		if imgui.Button(u8" "..fa.ICON_RUB .. u8" Russian Mafia", imgui.ImVec2(184,30)) then
 			sampSendChat("/templeader 14")
 		end
-		if imgui.Button(u8" "..fa.ICON_USER_SECRET .. u8" РҐРёС‚РјР°РЅС‹", imgui.ImVec2(184,30)) then
+		if imgui.Button(u8" "..fa.ICON_USER_SECRET .. u8" Хитманы", imgui.ImVec2(184,30)) then
 			sampSendChat("/templeader 23")
 		end
-		if imgui.Button(u8" "..fa.ICON_MOTORCYCLE .. u8" РЎС‚СЂРёС‚СЂРµР№СЃРµСЂС‹", imgui.ImVec2(184,30)) then
+		if imgui.Button(u8" "..fa.ICON_MOTORCYCLE .. u8" Стритрейсеры", imgui.ImVec2(184,30)) then
 			sampSendChat("/templeader 24")
 		end
 		if imgui.Button(u8" "..fa.ICON_USD .. u8" Casino 4 Dragons", imgui.ImVec2(184,30)) then
@@ -842,7 +842,7 @@ function imgui.OnDrawFrame( ... )
 		end
 		imgui.NextColumn()
         imgui.SetColumnWidth(-1, 195)
-		imgui.Text(u8"                     Р‘Р°РЅРґС‹")
+		imgui.Text(u8"                     Банды")
 		if imgui.Button(u8" "..fa.ICON_BEER .. u8" Ballas Gang", imgui.ImVec2(184,30)) then
 			sampSendChat("/templeader 12")
 		end
@@ -860,7 +860,7 @@ function imgui.OnDrawFrame( ... )
 		end
 		imgui.NextColumn()
         imgui.SetColumnWidth(-2, 300)
-		imgui.Text(u8"                Р“РѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅС‹Рµ РЎС‚СЂСѓРєС‚СѓСЂС‹")
+		imgui.Text(u8"                Государственные Структуры")
 		if imgui.Button(u8" "..fa.ICON_USER .. u8" Police LS", imgui.ImVec2(138,30)) then
 			sampSendChat("/templeader 1")
 		end
@@ -889,13 +889,13 @@ function imgui.OnDrawFrame( ... )
 		if imgui.Button(u8" "..fa.ICON_BULLHORN .. u8" Sa News", imgui.ImVec2(138,30)) then
 			sampSendChat("/templeader 16")
 		end
-		if imgui.Button(u8" "..fa.ICON_FLAG .. u8" РђРґРјРёРЅРёСЃС‚СЂР°С†РёСЏ С€С‚Р°С‚Р°", imgui.ImVec2(280,30)) then
+		if imgui.Button(u8" "..fa.ICON_FLAG .. u8" Администрация штата", imgui.ImVec2(280,30)) then
 			sampSendChat("/templeader 26")
 		end
-		if imgui.Button(u8" "..fa.ICON_UNIVERSITY .. u8" РњСЌСЂРёСЏ Р›РѕСЃ-РЎР°РЅС‚РѕСЃ", imgui.ImVec2(280,30)) then
+		if imgui.Button(u8" "..fa.ICON_UNIVERSITY .. u8" Мэрия Лос-Сантос", imgui.ImVec2(280,30)) then
 			sampSendChat("/templeader 7")
 		end
-		if imgui.Button(u8" "..fa.ICON_TELEVISION .. u8" Р¤РµРґРµСЂР°Р»СЊРЅРѕРµ Р‘СЋСЂРѕ Р Р°СЃСЃР»РµРґРѕРІР°РЅРёР№", imgui.ImVec2(280,30)) then
+		if imgui.Button(u8" "..fa.ICON_TELEVISION .. u8" Федеральное Бюро Расследований", imgui.ImVec2(280,30)) then
 			sampSendChat("/templeader 2")
 		end
 	        end
@@ -903,17 +903,17 @@ function imgui.OnDrawFrame( ... )
 	        end
 	        if apanel == 7 then
 	        	imgui.BeginChild("fg", imgui.ImVec2(332, 118), true, imgui.WindowFlags.AlwaysUseWindowPadding)
-	        	local itembox = {u8"[0] РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚", u8"[1] РЈСЂРѕРІРµРЅСЊ", u8"[2] Р—Р°РєРѕРЅРєР°", u8"[3] РњР°С‚РµСЂРёР°Р»Р»С‹", u8"[4] РЎРєРёРЅ", u8"[5] РЈР±РёР№СЃС‚РІР°", u8"[6] РќРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°", u8"[7] РћРїС‹С‚", u8"[8] РљР»СЋС‡ РѕС‚ РґРѕРјР°", u8"[9] Р‘РёР·РЅРµСЃ", u8"[10] РЈСЂРѕРІРµРЅСЊ VIP", u8"[11] Р Р°Р±РѕС‚Р° РёРіСЂРѕРєР°", u8"[12] РђРїС‚РµС‡РєРё", u8"[13] Р”РµРЅСЊРіРё РІ Р±Р°РЅРєРµ", u8"[14] РњРѕР±РёР»СЊРЅС‹Р№", u8"[15] Р”РµРЅСЊРіРё", u8"[16] Р’Р°СЂРЅС‹", u8"[17] РђРїС‚РµС‡РєРё", u8"[18] РћСЂРіР°РЅРёР·Р°С†РёСЏ", u8"[19] РЎРєРёР»Р» Р±РѕРєСЃР°", u8"[20] Р’СЂРµРјСЏ Р±РѕРєСЃР°", u8"[21] Р‘РѕРєСЃ", u8"[22] РљРѕРЅРі Р¤Сѓ", u8"[23] РљРёРєР‘РѕРєСЃ", u8"[24] РЈРІР°Р¶РµРЅРёРµ", u8"[25] Р‘РµРі", u8"[26] 1 СЃР»РѕС‚", u8"[27] 2 СЃР»РѕС‚", u8"[28] 3 СЃР»РѕС‚", u8"[29] 4 СЃР»РѕС‚", u8"[30] 5 СЃР»РѕС‚", u8"[31] РќР°СЂРєРѕР·Р°РІРёСЃРёРјРѕСЃС‚СЊ (РѕРїС‹С‚)", u8"[32] Р¤Р°РєС†РёРѕРЅРЅС‹Р№ СЃРєРёРЅ", u8"[33] РњСѓР¶ РёР»Рё Р–РµРЅР°", u8"[34] РџСЂРѕС†С‹", u8"[35] Р’СЂРµРјСЏ Р±Р°РЅРєР°", u8"[36] Р”РѕСЃС‚СѓРї Рє /ban", u8"[35] Р”РѕСЃС‚СѓРї Рє /warn"}
-				imgui.PushItemWidth(180) -- РЈР±СЂР°Р» Р»РёС€РЅРёРµ PushItemWidth, РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РѕРґРёРЅ СЂР°Р· РїСЂРѕРїРёСЃР°С‚СЊ Рё РІСЃРµ СЌР»РµРјРµРЅС‚С‹ РІ РїСЂРµРґРµР»Р°С… Р±СѓРґСѓС‚ РЅСѓР¶РЅРѕРіРѕ СЂР°Р·РјРµСЂР°
-	    		imgui.InputText(u8"Р’РІРµРґРёС‚Рµ ID РёРіСЂРѕРєР°", inputid)
+	        	local itembox = {u8"[0] Отсутствует", u8"[1] Уровень", u8"[2] Законка", u8"[3] Материаллы", u8"[4] Скин", u8"[5] Убийства", u8"[6] Номер телефона", u8"[7] Опыт", u8"[8] Ключ от дома", u8"[9] Бизнес", u8"[10] Уровень VIP", u8"[11] Работа игрока", u8"[12] Аптечки", u8"[13] Деньги в банке", u8"[14] Мобильный", u8"[15] Деньги", u8"[16] Варны", u8"[17] Аптечки", u8"[18] Организация", u8"[19] Скилл бокса", u8"[20] Время бокса", u8"[21] Бокс", u8"[22] Конг Фу", u8"[23] КикБокс", u8"[24] Уважение", u8"[25] Бег", u8"[26] 1 слот", u8"[27] 2 слот", u8"[28] 3 слот", u8"[29] 4 слот", u8"[30] 5 слот", u8"[31] Наркозависимость (опыт)", u8"[32] Факционный скин", u8"[33] Муж или Жена", u8"[34] Процы", u8"[35] Время банка", u8"[36] Доступ к /ban", u8"[35] Доступ к /warn"}
+				imgui.PushItemWidth(180) -- Убрал лишние PushItemWidth, достаточно один раз прописать и все элементы в пределах будут нужного размера
+	    		imgui.InputText(u8"Введите ID игрока", inputid)
 	    		imgui.Separator()
-	    		imgui.Combo(u8"РќРѕРјРµСЂ РїРµСЂРµРјРµРЅРЅРѕР№", combo, itembox) 
+	    		imgui.Combo(u8"Номер переменной", combo, itembox) 
 	    		imgui.Separator()  
-	    		imgui.InputText(u8"Р’РІРµРґРёС‚Рµ РєРѕР»Р»РёС‡РµСЃС‚РІРѕ", inputkol)
+	    		imgui.InputText(u8"Введите колличество", inputkol)
 	    		imgui.Separator()
 				imgui.PopItemWidth()
-				if imgui.Button(u8"Р’С‹РґР°С‚СЊ") then
-	    			sampSendChat("/setstat "..inputid.v.." "..combo.v .. " " .. inputkol.v) -- РўРѕ С‡С‚Рѕ РІС‹С€Рµ РѕРїРёСЃР°Р» РїРѕРґ UPD
+				if imgui.Button(u8"Выдать") then
+	    			sampSendChat("/setstat "..inputid.v.." "..combo.v .. " " .. inputkol.v) -- То что выше описал под UPD
 	    			combo.v = 0
 	    			inputid.v = ""
 	    			inputkol.v = ""       
@@ -923,16 +923,16 @@ function imgui.OnDrawFrame( ... )
 				imgui.BeginChild("fsd", imgui.ImVec2(332, 118), true, imgui.WindowFlags.AlwaysUseWindowPadding)
 	        	local cmd = {u8"/makeadmin", "/makehelper", "/makeleader", "/offhelper", "/offleader", "/gzcolor", "/ghetto", "/avig", "/aunvig", "/banip"}
 			imgui.PushItemWidth(180)
-			imgui.InputText(u8"Р’РІРµРґРёС‚Рµ РЅРёРє", inputname)
+			imgui.InputText(u8"Введите ник", inputname)
 			imgui.Separator()
-			imgui.Combo(u8"Р’С‹Р±РµСЂРёС‚Рµ РєРѕРјР°РЅРґСѓ", combo, cmd)
-			if imgui.Button(u8"Р’С‹РґР°С‚СЊ") then
+			imgui.Combo(u8"Выберите команду", combo, cmd)
+			if imgui.Button(u8"Выдать") then
 				sampSendChat(u8:decode"/setcmd "..inputname.v.." "..(cmd[combo.v + 1]).." 1")
 				combo.v = 0
     			inputname.v = ""
 			end 
 			imgui.SameLine()
-			if imgui.Button(u8"Р—Р°Р±СЂР°С‚СЊ") then
+			if imgui.Button(u8"Забрать") then
 				sampSendChat(u8:decode"/setcmd "..inputname.v.." "..(cmd[combo.v + 1]).." 0")
 				combo.v = 0
     			inputname.v = ""
@@ -940,18 +940,18 @@ function imgui.OnDrawFrame( ... )
 				imgui.EndChild()
 				imgui.BeginChild("fgsd", imgui.ImVec2(669, 146), true, imgui.WindowFlags.AlwaysUseWindowPadding)
 				imgui.PushItemWidth(430)
-			imgui.InputText(u8"Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ", inputname)
+			imgui.InputText(u8"Введите название", inputname)
 			imgui.Separator()
-			imgui.SliderInt(u8"РљРѕР»РёС‡РµСЃС‚РІРѕ СЂСѓР±Р»РµР№", var, 1, 20, "%.0f")
+			imgui.SliderInt(u8"Количество рублей", var, 1, 20, "%.0f")
 			imgui.Separator()
-			imgui.SliderInt(u8"РљРѕР»РёС‡РµСЃС‚РІРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёР№", var1, 1, 100, "%.0f")
+			imgui.SliderInt(u8"Количество использований", var1, 1, 100, "%.0f")
 			imgui.Separator()
-			imgui.SliderInt(u8"Р Р°Р·СЂРµС€РµРЅРёРµ", var2, 0, 1, "%.0f")
+			imgui.SliderInt(u8"Разрешение", var2, 0, 1, "%.0f")
 			imgui.Separator()
 			imgui.PushItemWidth(330)
-			imgui.SliderInt(u8"РћС‚С‹РіСЂР°РЅРЅРѕРµ РІСЂРµРјСЏ", var3, 1, 100, "%.0f")
+			imgui.SliderInt(u8"Отыгранное время", var3, 1, 100, "%.0f")
 			imgui.SameLine()
-			if imgui.Button(u8"РЎРѕР·РґР°С‚СЊ") then
+			if imgui.Button(u8"Создать") then
 				sampSendChat("/newpromo #"..inputname.v.." "..var.v.." "..var1.v.." "..var2.v.." "..var3.v)  
     			slider = 1  
 			end
@@ -962,28 +962,28 @@ function imgui.OnDrawFrame( ... )
 	        if apanel == 9 then
 	        end
 	        if apanel == 10 then
-	        	imgui.Text(u8"" ..fa.ICON_COG..u8" вЂ” РќР°СЃС‚СЂРѕР№РєРё ")
-	        	imgui.Text(u8"" ..fa.ICON_EXCLAMATION_TRIANGLE..u8" вЂ” Р§РёС‚РёРєРё ")
-	        	imgui.Text(u8"" ..fa.ICON_TH_LARGE..u8" вЂ” РљРЅРѕРїРѕС‡РєРё ")
-	        	imgui.Text(u8"" ..fa.ICON_PENCIL_SQUARE_O ..u8" вЂ” Р‘РёРЅРґРµСЂС‹ ")
-	        	imgui.Text(u8"" ..fa.ICON_GRADUATION_CAP..u8" вЂ” Р’С‹РґР°С‡Р° РІСЂРµРјРµРЅРЅРѕРіРѕ Р»РёРґРµСЂСЃС‚РІРѕ ")
-	        	imgui.Text(u8"" ..fa.ICON_BOMB..u8" вЂ” Р’С‹РґР°С‡Р° РѕСЂСѓР¶РёСЏ ")
-	        	imgui.Text(u8"" ..fa.ICON_ID_CARD..u8" вЂ” РџРѕР»РЅС‹Р№ РґРѕСЃС‚СѓРї ")
-	        	imgui.Text(u8"" ..fa.ICON_DESKTOP..u8" вЂ”  РџСЂРѕРІРµРґРµРЅРёРµ РјРµСЂРѕРїСЂРёСЏС‚РёР№ ")
-	        	imgui.Text(u8"" ..fa.ICON_LIST_ALT..u8" вЂ” РџР°РЅРµР»СЊ РєР°РїС‚РѕРІ ")
+	        	imgui.Text(u8"" ..fa.ICON_COG..u8" — Настройки ")
+	        	imgui.Text(u8"" ..fa.ICON_EXCLAMATION_TRIANGLE..u8" — Читики ")
+	        	imgui.Text(u8"" ..fa.ICON_TH_LARGE..u8" — Кнопочки ")
+	        	imgui.Text(u8"" ..fa.ICON_PENCIL_SQUARE_O ..u8" — Биндеры ")
+	        	imgui.Text(u8"" ..fa.ICON_GRADUATION_CAP..u8" — Выдача временного лидерство ")
+	        	imgui.Text(u8"" ..fa.ICON_BOMB..u8" — Выдача оружия ")
+	        	imgui.Text(u8"" ..fa.ICON_ID_CARD..u8" — Полный доступ ")
+	        	imgui.Text(u8"" ..fa.ICON_DESKTOP..u8" —  Проведение мероприятий ")
+	        	imgui.Text(u8"" ..fa.ICON_LIST_ALT..u8" — Панель каптов ")
 	        end
 	        if apanel == 11 then
 	        end
 	        if apanel == 12 then
-	        	imgui.CenterText(u8""..fa.ICON_COGS .. u8" Р’РµСЂСЃРёСЏ: 1.0.0 (Р Р•Р›РР—)")
+	        	imgui.CenterText(u8""..fa.ICON_COGS .. u8" Версия: 1.0.0 (РЕЛИЗ)")
 				imgui.Separator()
-				imgui.Text(u8"вЂ” РЎРѕР·РґР°РЅ СЃРєСЂРёРїС‚, РїРµСЂРІС‹Рµ С„СѓРЅРєС†РёРё, РїРµСЂРІРѕРµ Р±РµС‚Р°-С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ")
-				imgui.CenterText(u8""..fa.ICON_COGS .. u8" Р’РµСЂСЃРёСЏ: 1.1.0")
+				imgui.Text(u8"— Создан скрипт, первые функции, первое бета-тестирование")
+				imgui.CenterText(u8""..fa.ICON_COGS .. u8" Версия: 1.1.0")
 				imgui.Separator()
-				imgui.Text(u8"вЂ” Р”РѕР±Р°РІР»РµРЅ Р°РІС‚РѕРѕС‚РІРµС‚С‡РёРє, СЃРїР°СЃРёР±Рѕ Angel Mayskiy Р·Р° РїСЂРѕРґР°Р¶Сѓ РјРѕРµРіРѕ СЃРєСЂРёРїС‚Р°.")
+				imgui.Text(u8"— Добавлен автоответчик, спасибо Angel Mayskiy за продажу моего скрипта.")
 	        end
 	    imgui.EndChild()
-	    if imgui.Button('' .. fa.ICON_TIMES_CIRCLE_O .. u8' Р—Р°РєСЂС‹С‚СЊ',imgui.ImVec2(-0.1, 0)) then
+	    if imgui.Button('' .. fa.ICON_TIMES_CIRCLE_O .. u8' Закрыть',imgui.ImVec2(-0.1, 0)) then
 	       	apanel_window_state.v = false
 	    end
 	    imgui.End()
@@ -1018,21 +1018,21 @@ function autoupdate(json_url, prefix, url)
               lua_thread.create(function(prefix)
                 local dlstatus = require('moonloader').download_status
                 local color = -1
-                sampAddChatMessage((prefix..'РћР±РЅР°СЂСѓР¶РµРЅРѕ РѕР±РЅРѕРІР»РµРЅРёРµ. РџС‹С‚Р°СЋСЃСЊ РѕР±РЅРѕРІРёС‚СЊСЃСЏ c '..thisScript().version..' РЅР° '..updateversion), color)
+                sampAddChatMessage((prefix..'Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion), color)
                 wait(250)
                 downloadUrlToFile(updatelink, thisScript().path,
                   function(id3, status1, p13, p23)
                     if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
-                      print(string.format('Р—Р°РіСЂСѓР¶РµРЅРѕ %d РёР· %d.', p13, p23))
+                      print(string.format('Загружено %d из %d.', p13, p23))
                     elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
-                      print('Р—Р°РіСЂСѓР·РєР° РѕР±РЅРѕРІР»РµРЅРёСЏ Р·Р°РІРµСЂС€РµРЅР°.')
-                      sampAddChatMessage((prefix..'РћР±РЅРѕРІР»РµРЅРёРµ Р·Р°РІРµСЂС€РµРЅРѕ!'), color)
+                      print('Загрузка обновления завершена.')
+                      sampAddChatMessage((prefix..'Обновление завершено!'), color)
                       goupdatestatus = true
                       lua_thread.create(function() wait(500) thisScript():reload() end)
                     end
                     if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
                       if goupdatestatus == nil then
-                        sampAddChatMessage((prefix..'РћР±РЅРѕРІР»РµРЅРёРµ РїСЂРѕС€Р»Рѕ РЅРµСѓРґР°С‡РЅРѕ. Р—Р°РїСѓСЃРєР°СЋ СѓСЃС‚Р°СЂРµРІС€СѓСЋ РІРµСЂСЃРёСЋ..'), color)
+                        sampAddChatMessage((prefix..'Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
                         update = false
                       end
                     end
@@ -1042,11 +1042,11 @@ function autoupdate(json_url, prefix, url)
               )
             else
               update = false
-              print('v'..thisScript().version..': РћР±РЅРѕРІР»РµРЅРёРµ РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ.')
+              print('v'..thisScript().version..': Обновление не требуется.')
             end
           end
         else
-          print('v'..thisScript().version..': РќРµ РјРѕРіСѓ РїСЂРѕРІРµСЂРёС‚СЊ РѕР±РЅРѕРІР»РµРЅРёРµ. РЎРјРёСЂРёС‚РµСЃСЊ РёР»Рё РїСЂРѕРІРµСЂСЊС‚Рµ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РЅР° '..url)
+          print('v'..thisScript().version..': Не могу проверить обновление. Смиритесь или проверьте самостоятельно на '..url)
           update = false
         end
       end
