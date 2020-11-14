@@ -1,6 +1,6 @@
 script_name ("ATools by Vilkov") 
 script_author("Vilkov") 
-script_version("1.1.0") 
+script_version("14.11.20") 
 
 require "lib.moonloader"  
 require "lib.sampfuncs" -- 
@@ -804,9 +804,9 @@ function imgui.OnDrawFrame( ... )
 	    		imgui.Combo(u8'Выберите уровень', combo, helplevel) -- Само комбо.
 	    		imgui.Separator()
 	    		if imgui.Button(u8"Запустить", imgui.ImVec2(100, 20)) then -- Если нажать на кнопку "Выдать"
-		    	--	if combo.v == 0 then -- И если в комбо будет выбрана строка "Нет" или же ник игрока не будет введён
+		    	--	if combo.v == 0 then -- �  если в комбо будет выбрана строка "Нет" или же ник игрока не будет введён
 		        --	sampAddChatMessage("Выберите уровень хэлперских прав.", -1) -- Напишут, что ты кое-что забыл
-		    	--	else -- Иначе
+		    	--	else -- � наче
 		        	if sampSendChat("/aad Отбор | Cейчас пройдет отбор на Хэлперские права: " ..combo.v.." уровня!") then
 					end
 				end
@@ -975,7 +975,7 @@ function imgui.OnDrawFrame( ... )
 	        if apanel == 11 then
 	        end
 	        if apanel == 12 then
-	        	imgui.CenterText(u8""..fa.ICON_COGS .. u8" Версия: 1.0.0 (РЕЛИЗ)")
+	        	imgui.CenterText(u8""..fa.ICON_COGS .. u8" Версия: 1.0.0 (РЕЛ� З)")
 				imgui.Separator()
 				imgui.Text(u8"— Создан скрипт, первые функции, первое бета-тестирование")
 				imgui.CenterText(u8""..fa.ICON_COGS .. u8" Версия: 1.1.0")
